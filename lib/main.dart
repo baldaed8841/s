@@ -1,5 +1,5 @@
-import 'package:bridle/game.dart';
 import 'package:flutter/material.dart';
+import 'game.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,8 +10,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Title("A", HitType.hit))),
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(child: GamePage()),
+        appBar: AppBar(
+          title: Align(alignment: Alignment.centerLeft, child: Text("Bridle")),
+        ),
+      ),
     );
   }
 }
@@ -37,5 +42,59 @@ class Title extends StatelessWidget {
       ),
       child: Center(child: Text(letter)),
     );
-  } 
+  }
+}
+
+class GamePage extends StatelessWidget {
+  GamePage({super.key});
+  final Game _game = Game(); // from game.dart
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 5.0,
+        children: [
+          for (final guess in _game.guesses)
+            Row(children: [for (final x in guess) Title(x.char, x.type)]),
+        ],
+      ),
+    );
+  }
+}
+
+class GuessInput extends StatelessWidget {
+
+  const GuessInput({super.key, required this.onSubmitGuess});
+  final Function(String) onSubmitGuess;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextField(
+              maxLength: 5,
+              onSubmitted: onSubmitGuess,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(35)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+GamePage state extends State<GamePage>
+
+On Submit Guess (text){
+  set State ((
+    
+  )
 }
