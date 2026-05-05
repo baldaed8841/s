@@ -65,8 +65,9 @@ class GamePage extends StatelessWidget {
 }
 
 class GuessInput extends StatelessWidget {
-
-  const GuessInput({super.key, required this.onSubmitGuess});
+  final FocusNode _focus=FocusNode();
+final TextEditingController _controller = TextEditingController();
+ GuessInput({super.key, required this.onSubmitGuess});
   final Function(String) onSubmitGuess;
   @override
   Widget build(BuildContext context) {
@@ -86,15 +87,31 @@ class GuessInput extends StatelessWidget {
             ),
           ),
         ),
+      IconButton(onPressed: (){
+        onSubmitGuess(_controller.text.trim());
+        _controller.clear();
+        _focus.requestFocus();
+      }, icon: Icon(Icons.arrow_circle_up)
+      )
       ],
     );
   }
 }
 
-GamePage state extends State<GamePage>
+class _GamePageState extends State<GamePage> {
+  Game _game = Game();
 
-On Submit Guess (text){
-  set State ((
-    
-  )
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 5.0,
+        children: [
+          for (final guess in _game.guesses)
+            Row(children: [for (final x in guess) Title(x.char, x.type)]),
+        ],
+      ),
+    );
+  }
 }
